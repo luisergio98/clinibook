@@ -6,28 +6,48 @@
 package br.ufpr.tads.dac.facade.impl;
 
 import br.ufpr.tads.dac.beans.AdministradorBean;
+import br.ufpr.tads.dac.connection.ConnectionFactory;
 import br.ufpr.tads.dac.dao.UserDao;
+import br.ufpr.tads.dac.dao.impl.UserDaoImpl;
 import br.ufpr.tads.dac.facade.UserFacade;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author luis_
  */
 public class UserFacadeImpl implements UserFacade{
+
+    private UserDao userDAO;
     
-    public UserDao getUserDAO() {
-        return UserDAO;
+    public UserFacadeImpl(){
+        try {
+            Connection con = new ConnectionFactory().getConnection();
+            this.userDAO = new UserDaoImpl(con);
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserFacadeImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserFacadeImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
-    public void setUserDAO(UserDao UserDAO) {
-        this.UserDAO = UserDAO;
-    }
-
-    private UserDao UserDAO;
     
     @Override
     public AdministradorBean loginAdmin(AdministradorBean admin) {
+        System.out.println("oi");
         return getUserDAO().loginAdmin(admin);
+        
+    }
+
+    public UserDao getUserDAO() {
+        return userDAO;
+    }
+
+    public void setUserDAO(UserDao userDAO) {
+        this.userDAO = userDAO;
     }
     
     

@@ -40,6 +40,10 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private UserFacade userFacade;
+    
+    public LoginServlet(){
+        this.userFacade = new UserFacadeImpl();
+    }  
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
