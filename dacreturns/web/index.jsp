@@ -39,15 +39,15 @@
                     <div class="form-group">
                         <label>Senha:</label><br>
                         <input class="form-control" type="password" name="pass" placeholder="Password">
-                    <div>
+                    </div>
                     <br>
                     <button class="btn btn-success" type="submit"> Entrar </button>
                 </form>
-                <br>
-                <br>
-                <div style="color:red;">
-                ${msg}
-                ${param.msg}
+                <div style="color: red; text-align: center;">
+                        <br>
+                        <br>
+                        <c:out value="${msg}"/>
+                        <c:out value="${param.msg}"/>
                 </div>
             </div>
             <div class="col-md-4"> </div>
@@ -56,8 +56,4 @@
         
         </div>
     </body>
-    <footer>
-    
-    
-    </footer>
 </html>
