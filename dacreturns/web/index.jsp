@@ -26,7 +26,7 @@
             <div class="col-md-4"> </div>
             <div class="col-md-4">
                 <h1 class="text-center">Login</h1>
-                <form class="form-control" action="login" method="POST">
+                <form action="login" method="POST">
                     
                     <div class="form-group">
                         <label>Login:</label><br>
@@ -54,5 +54,7 @@
         </div>
                 
         </section>
+        
+        
     </body>
 </html>
