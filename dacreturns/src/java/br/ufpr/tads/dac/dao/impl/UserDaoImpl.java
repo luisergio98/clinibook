@@ -26,8 +26,6 @@ public class UserDaoImpl extends GenericDAOImpl implements UserDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         AdministradorBean user = new AdministradorBean();
-        System.out.println(admin.getLogin());
-        System.out.println(admin.getSenha());
         try {
             st = con.prepareStatement("select login from tb_admin where login = ? AND senha = ?");
             st.setString(1, admin.getLogin());
@@ -37,7 +35,6 @@ public class UserDaoImpl extends GenericDAOImpl implements UserDao{
                 user.setLogin(rs.getString("login"));
                 break;
             }
-            System.out.println(user.getLogin());
             return user;
         } catch (Exception e) {
             e.printStackTrace();

@@ -15,9 +15,15 @@
     
        
     <c:import url = "header.html" />
+    
+    
+    
+            <c:out value="${msg}"/>
+            <c:out value="${param.msg}"/>
     <body>
         
        
+            
         <section class="contentpage">
         
         <div class="container">
@@ -40,14 +46,9 @@
                     <br>
                     <button class="btn btn-success" type="submit"> Entrar </button>
                 </form>
-                <div style="color: red; text-align: center;">
-                        <br>
-                        <br>
-                        <c:out value="${msg}"/>
-                        <c:out value="${param.msg}"/>
-                </div>
             </div>
             <div class="col-md-4"> </div>
+             
         </div>
         
         
@@ -56,5 +57,7 @@
         </section>
         
         
+
+                 
     </body>
 </html>

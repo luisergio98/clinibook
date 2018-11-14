@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS tb_endereco (
 	cep VARCHAR(10) NOT NULL,
 	logradouro VARCHAR(50),
 	bairro VARCHAR(50),
+    numero INT NOT NULL,
 	id_cidade INT NOT NULL,
 	id_estado INT NOT NULL,
 	PRIMARY KEY (id),
@@ -42,10 +43,10 @@ CREATE TABLE IF NOT EXISTS tb_cliente (
 	email VARCHAR(50),
 	senha VARCHAR(50),
 	idade INT NOT NULL,
+    distanciamaxima DOUBLE NOT NULL,
 	id_plano INT NOT NULL,
 	id_endereco INT NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (id_plano) REFERENCES tb_plano(id),
 	FOREIGN KEY (id_endereco) REFERENCES tb_endereco(id)
 );
 

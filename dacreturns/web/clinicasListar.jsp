@@ -15,6 +15,21 @@
     
        
     <c:import url = "header.html" />
+    
+    <script>
+            function myFunction(x) {
+                var r = confirm("Tem certeza?");
+                if (r == true) {
+                    var link = document.getElementById(x);
+                    link.setAttribute('href', "clinicas?action=remove&id="+x);
+                } else {
+                    return false;
+                } 
+            }
+            
+            
+    </script>
+    
     <body>
         
         <section class="contentpage">
@@ -23,8 +38,8 @@
                     <c:when test = "${not empty login.login}">
 			<div class="container-fluid">
                             <h1>Lista de Clínicas</h1>
-                            <a href="clientes?action=formNew" class="btn btn-success"> Adicionar </a> 
-                            <a href="portal.jsp" class="btn btn-danger"> Voltar </a>
+                            <a href="clinicas?action=formNew" class="btn btn-success"> Adicionar </a> 
+                            <a href="portal" class="btn btn-danger"> Voltar </a>
                             <br>
                             <br>
                             <table class="table table-hover">
@@ -38,19 +53,54 @@
                                 <th> </th>
                                 <th> </th>
 
-                            
+                                    <c:forEach items="${clinicas}" var="x">
                                     <tr>
-                                    <td>Life Saver</td>
-                                    <td>1234-12345</td>
-                                    <td>atendimento@lifesaver.com.br</td>
-                                    <td>5 Anos</td>
-                                    <td>60 Anos</td>
-                                    <td>Rua sept, 420</td>
-                                    <td><a href="clientes?action=show&id=1"><i class="fa fa-eye"> </i></a></td>
-                                    <td><a href="clientes?action=formUpdate&id=1"><i class="fa fa-pencil-square"> </i></a></td>
-                                    <td><a id="1" href=""><i class="fa fa-trash"> </i></a></td>
+                                    <td> <c:out value="${x.nome}"/> </td>
+                                    <td> <c:out value='${x.telefone}'/> </td>
+                                    <td> <c:out value='${x.email}'/> </td>
+                                    <td> <c:out value='${x.minIdade}'/> Ano(s)</td>
+                                    <td> <c:out value='${x.maxIdade}'/> Ano(s)</td>
+                                    <td> <c:out value='${x.endereco.logradouro}'/>, <c:out value='${x.endereco.numero}'/></td>
+                                    <td><a href="" role="button" data-toggle="modal" data-target="#Modal<c:out value='${x.id}'/>"><i class="fa fa-eye"> </i></a></td>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="Modal<c:out value="${x.id}"/>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Clínica</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                              <p>
+                                                <p><strong>Nome: </strong> <c:out value="${x.nome}"/> </p>
+                                                <p><strong>Telefone: </strong> <c:out value='${x.telefone}'/> </p>
+                                                <p><strong>E-mail: </strong> <c:out value='${x.email}'/> </p>
+                                                <p><strong>Idade Mínima: </strong> <c:out value='${x.minIdade}'/> Ano(s)</p>
+                                                <p><strong>Idade Máxima: </strong> <c:out value='${x.maxIdade}'/> Ano(s)</p>
+                                                <br>
+                                                <p><strong>Rua: </strong> <c:out value='${x.endereco.logradouro}'/></p>
+                                                <p><strong>Bairro:  </strong> <c:out value='${x.endereco.bairro}'/></p>
+                                                <p><strong>Número: </strong> <c:out value='${x.endereco.numero}'/></p>
+                                                <p><strong>CEP: </strong> <c:out value='${x.endereco.cep}'/></p>
+                                                <p><strong>Cidade: </strong> <c:out value='${x.endereco.cidade.nome}'/></p>
+                                                <p><strong>Estado: </strong> <c:out value='${x.endereco.estado.nome}'/></p>
+                                              </p>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- Fim Modal -->
+                                    
+                                    <td><a href="clinicas?action=formUpdate&id=${x.id}"><i class="fa fa-pencil-square"> </i></a></td>
+                                    <td><a id="${x.id}" onclick="myFunction(${x.id})" href=""><i class="fa fa-trash"> </i></a></td>
                                     </tr>
-                            
+                                    </c:forEach>
 
                             </table>
                         </div>

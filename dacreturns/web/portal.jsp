@@ -30,14 +30,15 @@
 
                                 <i style="font-size: 78px;" class="fa fa-user"></i><br>
 
-                            Nome:   ${login.login} <br/>
+                                Nome:  <c:out value="${login.login}"/> <br/>
 
                             <br>
                             
-                            <a href="medicosListar.jsp"><button class="btn btn-info">Médicos</button></a>
-                            <a href="clinicasListar.jsp"><button class="btn btn-info">Clínicas</button></a>
-                            <a href="tiposListar.jsp"><button class="btn btn-info">Especialidades</button></a>
-                            <a href="planosListar.jsp"><button class="btn btn-info">Planos de Saúde</button></a>
+                            <a href="medicos"><button class="btn btn-info">Médicos</button></a>
+                            <a href="clinicas"><button class="btn btn-info">Clínicas</button></a>
+                            <a href="tipos"><button class="btn btn-info">Especialidades</button></a>
+                            <a href="planos"><button class="btn btn-info">Planos de Saúde</button></a>
+                            <a href="vinculos"><button class="btn btn-info">Vinculos</button></a>
                             <br>
                             <br>
                             <a href="logout"><button class="btn btn-danger">Sair</button></a>

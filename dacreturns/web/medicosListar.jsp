@@ -15,6 +15,21 @@
     <c:import url = "head.html" />    
        
     <c:import url = "header.html" />
+    
+    <script>
+            function myFunction(x) {
+                var r = confirm("Tem certeza?");
+                if (r == true) {
+                    var link = document.getElementById(x);
+                    link.setAttribute('href', "medicos?action=remove&id="+x);
+                } else {
+                    return false;
+                } 
+            }
+            
+            
+    </script>
+    
     <body>
         <section class="contentpage">
         <jsp:useBean id="login" scope="session" class="br.ufpr.tads.dac.beans.AdministradorBean" />
@@ -22,11 +37,12 @@
                     <c:when test = "${not empty login.login}">
 			<div class="container-fluid">
                             <h1>Lista de Médicos</h1>
-                            <a href="clientes?action=formNew" class="btn btn-success"> Adicionar </a> 
-                            <a href="portal.jsp" class="btn btn-danger"> Voltar </a>
+                            <a href="medicos?action=formNew" class="btn btn-success"> Adicionar </a> 
+                            <a href="portal" class="btn btn-danger"> Voltar </a>
                             <br>
                             <br>
                             <table class="table table-hover">
+                                <th>CRM</th>
                                 <th>Nome</th>
                                 <th>Clínica</th>
                                 <th>Especialidade</th>  
@@ -34,39 +50,43 @@
                                 <th> </th>
                                 <th> </th>
 
-                            
+                                <c:forEach items="${medicos}" var="x">
                                     <tr>
-                                    <td>João</td>
-                                    <td>Life Saver</td>
-                                    <td>Pediatra</td>
-                                    <td><a href="" data-toggle="modal" data-target="#1"><i class="fa fa-eye"> </i></a></td>
-                                    <td><a href="clientes?action=formUpdate&id=1"><i class="fa fa-pencil-square"> </i></a></td>
-                                    <td><a id="1" href=""><i class="fa fa-trash"> </i></a></td>
+                                    <td><c:out value="${x.crm}" /></td>
+                                    <td><c:out value="${x.nome}" /></td>
+                                    <td><c:out value="${x.clinica.nome}" /></td>
+                                    <td><c:out value="${x.tipo.nome}" /></td>
+                                    <td><a href="" role="button" data-toggle="modal" data-target="#exampleModal<c:out value="${x.id}" />"><i class="fa fa-eye"> </i></a></td>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal<c:out value="${x.id}" />" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Médico</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <p><strong>CRM: </strong><c:out value="${x.crm}" /></p>
+                                            <p><strong>Nome: </strong><c:out value="${x.nome}" /></p>
+                                            <p><strong>Clínica: </strong><c:out value="${x.clinica.nome}" /></p>
+                                            <p><strong>Especialidade: </strong><c:out value="${x.tipo.nome}" /></p>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                          </div>
+                                        </div>  
+                                      </div>
+                                    </div>
+                                    <td><a href="medicos?action=formUpdate&id=<c:out value="${x.id}" />"><i class="fa fa-pencil-square"> </i></a></td>
+                                    <td><a id="<c:out value="${x.id}" />" onclick="myFunction(<c:out value="${x.id}" />)" href=""><i class="fa fa-trash"> </i></a></td>
                                     </tr>
+                                     <!-- Button trigger modal -->
                                     
-                                    
-                                    
-                                    <tr>
-                                    <td>Maria</td>
-                                    <td>Life Saver</td>
-                                    <td>Ortopedista</td>
-                                    <td><a href="clientes?action=show&id=1"><i class="fa fa-eye"> </i></a></td>
-                                    <td><a href="clientes?action=formUpdate&id=1"><i class="fa fa-pencil-square"> </i></a></td>
-                                    <td><a id="1" href=""><i class="fa fa-trash"> </i></a></td>
-                                    </tr>
-                                    
-                                    <tr>
-                                    <td>Carlos</td>
-                                    <td>Life Saver</td>
-                                    <td>Dermatologista</td>
-                                    <td><a href="clientes?action=show&id=1"><i class="fa fa-eye"> </i></a></td>
-                                    <td><a href="clientes?action=formUpdate&id=1"><i class="fa fa-pencil-square"> </i></a></td>
-                                    <td><a id="1" href=""><i class="fa fa-trash"> </i></a></td>
-                                    </tr>
-                            
-
+                                </c:forEach>
                             </table>             
-                            <!-- Button trigger modal -->
+                           
 
                         </div>
 		    </c:when>

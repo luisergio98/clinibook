@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS tb_endereco (
 	cep VARCHAR(10) NOT NULL,
 	logradouro VARCHAR(50),
 	bairro VARCHAR(50),
+    numero INT,
 	id_cidade INT NOT NULL,
 	id_estado INT NOT NULL,
 	PRIMARY KEY (id),
@@ -42,15 +43,16 @@ CREATE TABLE IF NOT EXISTS tb_clinica (
 	email VARCHAR(50),
 	idade_de INT NOT NULL,
 	idade_ate INT NOT NULL,
-	id_endereco INT NOT NULL,
+	id_endereco INT,
 	PRIMARY KEY (id),
 	FOREIGN KEY (id_endereco) REFERENCES tb_endereco(id)
 );
 
 CREATE TABLE IF NOT EXISTS tb_clinica_plano (
+	id INT AUTO_INCREMENT,
 	id_clinica INT NOT NULL,
 	id_plano INT NOT NULL,
-	PRIMARY KEY (id_clinica, id_plano),
+	PRIMARY KEY (id),
 	FOREIGN KEY (id_clinica) REFERENCES tb_clinica(id),
 	FOREIGN KEY (id_plano) REFERENCES tb_plano(id)
 );
@@ -63,6 +65,7 @@ CREATE TABLE IF NOT EXISTS tb_tipo (
 
 CREATE TABLE IF NOT EXISTS tb_medico (
 	id INT AUTO_INCREMENT,
+    crm VARCHAR(10) NOT NULL,
 	nome VARCHAR(50) NOT NULL,
 	id_clinica INT NOT NULL,
 	id_tipo INT NOT NULL,
@@ -5680,3 +5683,14 @@ INSERT INTO tb_cidade (id_estado, nome) VALUES
 	(9,'Vila Boa'),
 	(9,'Vila Propício'),
 	(7,'Brasília');
+    
+
+INSERT INTO `db_clinica`.`tb_estado` (`id`, `nome`, `uf`) VALUES ('-1', 'Sem Estado Definido', 'NA');
+INSERT INTO `db_clinica`.`tb_cidade` (`id`, `nome`, `id_estado`) VALUES ('-1', 'Sem Cidade Definida', '-1');
+INSERT INTO `db_clinica`.`tb_endereco` (`id`, `cep`, `logradouro`, `bairro`, `numero`, `id_cidade`, `id_estado`) VALUES ('-1', '0', 'NA', 'NA', '0', '-1', '-1');
+DELETE FROM `db_clinica`.`tb_clinica` WHERE `id`='-1';
+INSERT INTO `db_clinica`.`tb_clinica` (`id`, `nome`, `telefone`, `email`, `idade_de`, `idade_ate`, `id_endereco`) VALUES ('-1', 'Sem Clinica Definida', '0', 'NA', '0', '0', '-1');
+INSERT INTO `db_clinica`.`tb_tipo` (`id`, `nome`) VALUES ('-1', 'Sem Especialidade Definida');
+
+
+
