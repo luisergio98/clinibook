@@ -10,6 +10,8 @@ import br.ufpr.tads.dac.beans.ClinicaBean;
 import br.ufpr.tads.dac.beans.MedicoBean;
 import br.ufpr.tads.dac.beans.TipoBean;
 import br.ufpr.tads.dac.beans.VinculoBean;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -27,7 +29,10 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import org.json.*;
 import java.text.Normalizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.DefaultBHttpClientConnection;
@@ -169,7 +174,9 @@ public class FiltrarServlet extends HttpServlet {
                 System.out.println(enderecoUsuario);
 
                 for (VinculoBean v : vinculos) {
-
+                    
+                    try {
+                    
                     String enderecoClinica = v.getClinica().getEndereco().getLogradouro() + " " + v.getClinica().getEndereco().getNumero();
                     enderecoClinica = deAccent(enderecoClinica);
                     enderecoClinica = enderecoClinica.replace(" ", "+");
@@ -184,18 +191,37 @@ public class FiltrarServlet extends HttpServlet {
                             new GenericType<String>() {
                     }
                     );
+                    
 
                     System.out.println("json: " + json);
+                    
+                    Gson g = new Gson();
+                    
+
+                    
+                    
                     JSONObject obj = new JSONObject(json);
-                    String distanciaJson = obj.getJSONObject("legs").getJSONObject("0").getJSONObject("distance").getString("value");
+                    String distanciaJson = obj.getString("value");
                     System.out.println("Distancia: " + distanciaJson);
 
                     double distancia = Double.parseDouble(distanciaJson);
                     distancia = distancia/1000;
-                    //              System.out.println("Distancia: " + distancia);
+                    System.out.println("Distancia: " + distancia);
 
                     if (distancia <= distanciaUsuario) {
                         vinculosPerto.add(v);
+                    }
+                    
+                    }
+                    catch(JSONException jsonEx){
+                        Logger.getLogger(FiltrarServlet.class.getName()).log(Level.SEVERE, null, jsonEx);
+                    }
+                    
+                    
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(FiltrarServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
