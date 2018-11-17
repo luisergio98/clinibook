@@ -174,9 +174,9 @@ public class FiltrarServlet extends HttpServlet {
                 System.out.println(enderecoUsuario);
 
                 for (VinculoBean v : vinculos) {
-                    
+
                     try {
-                    
+
                     String enderecoClinica = v.getClinica().getEndereco().getLogradouro() + " " + v.getClinica().getEndereco().getNumero();
                     enderecoClinica = deAccent(enderecoClinica);
                     enderecoClinica = enderecoClinica.replace(" ", "+");
@@ -191,33 +191,26 @@ public class FiltrarServlet extends HttpServlet {
                             new GenericType<String>() {
                     }
                     );
-                    
+                        
+                        System.out.println("json: " + json);
 
-                    System.out.println("json: " + json);
-                    
-                    Gson g = new Gson();
-                    
+                        final JSONObject obj = new JSONObject(json);
+                        final JSONArray distanciaJSON = obj.getJSONArray("routes");
+                        JSONObject person = distanciaJSON.getJSONObject(0);
+                        double distancia = person.getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getDouble("value");
+                        System.out.println("Distancia: " + distancia);
+                        distancia = distancia / 1000;
+                        System.out.println("Distancia: " + distancia);
+                        System.out.println("Distancia Usuário: " + distanciaUsuario);
+//
+                        if (distancia <= distanciaUsuario) {
+                            vinculosPerto.add(v);
+                        }
 
-                    
-                    
-                    JSONObject obj = new JSONObject(json);
-                    String distanciaJson = obj.getString("value");
-                    System.out.println("Distancia: " + distanciaJson);
-
-                    double distancia = Double.parseDouble(distanciaJson);
-                    distancia = distancia/1000;
-                    System.out.println("Distancia: " + distancia);
-
-                    if (distancia <= distanciaUsuario) {
-                        vinculosPerto.add(v);
-                    }
-                    
-                    }
-                    catch(JSONException jsonEx){
+                    } catch (JSONException jsonEx) {
                         Logger.getLogger(FiltrarServlet.class.getName()).log(Level.SEVERE, null, jsonEx);
                     }
-                    
-                    
+
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ex) {
@@ -225,7 +218,7 @@ public class FiltrarServlet extends HttpServlet {
                     }
                 }
 
-//                request.setAttribute("vinculos", vinculosPerto);
+                request.setAttribute("vinculos", vinculosPerto);
                 url = "listaclinicas_medinder.jsp";
                 RequestDispatcher rd = request.getRequestDispatcher(url);
                 rd.forward(request, response);
